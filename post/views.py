@@ -32,16 +32,18 @@ class PostListView(View):
 class PostDetailView(View):
     
     def get(self, request, *args, **kwargs):
-        post = Post.objects.get(id = kwargs['id'])
-        post = {
-            'author': post.writer.userid,
-            'title': post.title,
-            'content': post.content,
-            'created_at': post.created_at,
-            'updated_at': post.updated_at
-        }
-        return JsonResponse({'post':post}, status=200)
-
+        try:
+            post = Post.objects.get(id = kwargs['id'])
+            post = {
+                'author': post.writer.userid,
+                'title': post.title,
+                'content': post.content,
+                'created_at': post.created_at,
+                'updated_at': post.updated_at
+            }
+            return JsonResponse({'post':post}, status=200)
+        except Post.DoesNotExist:
+            return JsonResponse({'message':'no post'}, status=400)
 
 class PostUpdateView(View):
 
