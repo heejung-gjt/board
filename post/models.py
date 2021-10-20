@@ -1,5 +1,5 @@
 from django.db import models
-from behaviors import Deleteable, TimeStampable
+from behaviors import TimeStampable
 from user.models import User
 
 

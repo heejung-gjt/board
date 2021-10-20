@@ -47,12 +47,16 @@ class PostUpdateView(View):
 
     @login_check
     def get(self, request, *args, **kwargs):
-        if Post.objects.get(id = kwargs['id']).writer.userid != User.objects.get(id = request.user.id).userid:
-                return JsonResponse({'message':'수정 권한 없음'}, status=400)
+        try:
+            if Post.objects.get(id = kwargs['id']).writer.userid != User.objects.get(id = request.user.id).userid:
+                    return JsonResponse({'message':'수정 권한 없음'}, status=400)
 
-        post = list(Post.objects.filter(id = kwargs['id']).values('title', 'content'))
-        return JsonResponse({'post': post}, status=200)
-    
+            post = list(Post.objects.filter(id = kwargs['id']).values('title', 'content'))
+            return JsonResponse({'post': post}, status=200)
+        
+        except Post.DoesNotExist:
+            return JsonResponse({'message': 'no post'}, status=400)
+
     def post(self, request, *args, **kwargs):
         try:
             data = json.loads(request.body)
@@ -65,7 +69,6 @@ class PostUpdateView(View):
         
         except:
             return JsonResponse({'message':'error'}, status=400)
-
 
 
 class PostDeleteView(View):

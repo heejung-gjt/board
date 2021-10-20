@@ -1,8 +1,8 @@
 import jwt
-import json
 from django.http import JsonResponse
 from config.settings import SECRET_KEY
 from user.models import User
+
 
 def login_check(func):
     def wrapper(self, request, *args, **kwargs):

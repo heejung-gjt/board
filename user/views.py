@@ -1,12 +1,13 @@
 import json
-from django.core.exceptions import ValidationError
 import jwt
 import bcrypt
+from django.core.exceptions import ValidationError
 from django.http.response import JsonResponse
 from django.views.generic import View
 from config.settings import SECRET_KEY
 from .models import User
 from .validator import validate_id, validate_pwd
+
 
 class SignUpView(View):
     def post(self, request):
