@@ -7,15 +7,18 @@ from post.utils import login_check
 from user.models import User
 
 
-class PostListView(ListView):
-    model = Post
+class PostListView(View):
     
-    def render_to_response(self, context,  **response_kwargs):
-        posts = list(context['post_list'].values()) # values는 딕셔너리 형태로 풀어준다
-        return JsonResponse({'posts':posts}, safe=False, status=200)
+    def get(self, request, *args, **kwargs):
+        limit = int(request.GET.get('limit', 5))
+        offset = int(request.GET.get('offset', 0))
+        posts = Post.objects.values('title', 'writer__userid', 'created_at')[offset:offset + limit] 
+
+        return JsonResponse({'count': posts.count(), 'data': list(posts)}, status=200)
 
 
 class PostCreateView(View):
+
     @login_check
     def post(self, request):
         data = json.loads(request.body)
@@ -28,35 +31,41 @@ class PostCreateView(View):
 
 
 class PostUpdateView(View):
+
     @login_check
     def get(self, request, *args, **kwargs):
-        post = Post.objects.filter(id = kwargs['id'])
-        return JsonResponse({'post':list(post.values())}, status=200)
+        post = list(Post.objects.filter(id = kwargs['id']).values('title', 'content'))
+        return JsonResponse({'post': post}, status=200)
     
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body)
-        title = data['title']
-        content = data['content']
-        updated_at = time.time()
+
         Post.objects.filter(id = kwargs['id']).update(
-            title = title,
-            content = content,
-            updated_at = updated_at,
+            title = data['title'],
+            content = data['content'],
+            updated_at = time.time(),
         )
         return JsonResponse({'message':'post 수정 성공'}, status=200)
 
 
 class PostDeleteView(View):
+
     @login_check
     def get(self, request, *args, **kwargs):
         Post.objects.get(id = kwargs['id']).delete()
         return JsonResponse({'message':'post 삭제 성공'}, status=200)
 
 
-class PostDetailView(DetailView):
-    model = Post
+class PostDetailView(View):
     
-    def post_detail_view(request, pk):
-        post = Post.objects.get(pk = pk)
-        return JsonResponse({'post':post}, safe=False, status=200)
+    def get(self, request, *args, **kwargs):
+        post = Post.objects.get(id = kwargs['id'])
+        post = {
+            'author': post.writer.userid,
+            'title': post.title,
+            'content': post.content,
+            'created_at': post.created_at,
+            'updated_at': post.updated_at
+        }
+        return JsonResponse({'post':post}, status=200)
 
