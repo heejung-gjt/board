@@ -1,9 +1,9 @@
 # 📋 게시판 CRUD API 구현 
 ## 목차
-- ###  How to Implement
-- ### Endpoint Call
-- ### API Documentation
-- ### Unit Test
+- ###  [How to Implement](https://github.com/heejung-gjt/board/tree/develop#how-to-implement-1)  
+- ### [Endpoint Call](https://github.com/heejung-gjt/board/tree/develop#endpoint-call-1)   
+- ### [API Documentation](https://github.com/heejung-gjt/board/tree/develop#api-documentation-1)   
+- ### [Unit Test](https://github.com/heejung-gjt/board/tree/develop#api-documentation-1)    
 
 <br>
 
@@ -316,4 +316,4 @@ if Post.objects.get(id = kwargs['id']).writer.userid != User.objects.get(id = re
 <br>
 
 ## Unit Test
-[WIKI 작성]()
+[WIKI 작성](https://github.com/heejung-gjt/board/wiki/Unit-Test)
