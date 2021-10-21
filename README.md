@@ -1,7 +1,7 @@
 # 📋 게시판 CRUD API 구현 
 ## 목차
 - ###  [How to Implement](https://github.com/heejung-gjt/board/tree/develop#how-to-implement-1)  
-- ### [Build Environment](https://github.com/heejung-gjt/board/tree/develop#api-documentation-1)    
+- ### [Build Environment](https://github.com/heejung-gjt/board/tree/develop#build-environment-1)    
 - ### [Endpoint Call](https://github.com/heejung-gjt/board/tree/develop#endpoint-call-1)   
 - ### [API Documentation](https://github.com/heejung-gjt/board/tree/develop#api-documentation-1)   
 - ### [Unit Test](https://github.com/heejung-gjt/board/tree/develop#api-documentation-1)    
