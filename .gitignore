@@ -118,6 +118,7 @@ venv.bak/
 # Spyder project settings
 .spyderproject
 .spyproject
+.requirements.txt.swp
 
 # Rope project settings
 .ropeproject

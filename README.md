@@ -1,6 +1,7 @@
 # 📋 게시판 CRUD API 구현 
 ## 목차
 - ###  [How to Implement](https://github.com/heejung-gjt/board/tree/develop#how-to-implement-1)  
+- ### [Build Environment](https://github.com/heejung-gjt/board/tree/develop#api-documentation-1)    
 - ### [Endpoint Call](https://github.com/heejung-gjt/board/tree/develop#endpoint-call-1)   
 - ### [API Documentation](https://github.com/heejung-gjt/board/tree/develop#api-documentation-1)   
 - ### [Unit Test](https://github.com/heejung-gjt/board/tree/develop#api-documentation-1)    
@@ -22,8 +23,26 @@
 
 (테스트 과정은 unit test와 함께 postman을 사용했습니다) 
 
-## Endpoint Call
 
+<br>
+
+## Build Environment
+```bash
+$ virtualenv venv
+$ source venv/bin/activate
+$ pip install django
+$ pip install -r requirements.txt
+```
+<details>
+    <summary>SECRET KEY(삭제예정)</summary>
+<ul><li>django-insecure-*v2nfp5dla=1wo@w5h9et6(^s-tel#q(h1(3)74m2d0*_2@)yh</li></ul>
+
+</details>
+
+<br>
+
+## Endpoint Call
+(postman을 사용해 테스트 했습니다)
 > __회원가입__   
 
 - id와 password를 body에 담아 서버에 POST요청을 한다      
@@ -32,7 +51,7 @@
 
 |HTTP메소드|URL(자원)|Endpoint 역할|
 |----|----|----|
-|POST|127.0.0.1:8000/user/create|새로운 유저 생성    
+|POST|127.0.0.1:8000/user/signup|새로운 유저 생성    
 
 __호출 방법__       
 ```python
@@ -118,7 +137,10 @@ __호출 방법__
     "content": "test content 입니다"
 }
 
-# 3. 토큰과 데이터를 받은 서버는 토큰에 대한 정보를 확인 후 게시글을 생성한다. 이후 글이 생성되었다는 메시지를 response한다
+# 3. post요청으로 서버에 데이터를 보낸다
+127.0.0.1:8000/post/create/
+
+# 4. 토큰과 데이터를 받은 서버는 토큰에 대한 정보를 확인 후 게시글을 생성한다. 이후 글이 생성되었다는 메시지를 response한다
 return JsonResponse({'message':'Success'}, status=200)
 
 # 응답된 데이터
@@ -145,7 +167,7 @@ return JsonResponse({'message':'Success'}, status=200)
 __호출 방법__       
 ```python
 # 1. 쿼리스트링으로 보여질 게시글의 개수와 범위를 담아 GET요청을 한다
-?limit=2&offset=1
+127.0.0.1:8000/post?limit=2&offset=1
 
 # 2. 요청을 받은 서버는 이에 맞게 게시글을 페이징 처리하여 필요한 데이터를 response한다  
 limit = int(request.GET.get('limit', 10))
@@ -188,7 +210,7 @@ return JsonResponse({'count': posts.count(), 'data': list(posts)}, status=200)
 __호출 방법__       
 ```python
 # 1. id와 함께 GET요청을 한다
-post/2/  # 2번 게시글에 대한 GET요청  
+127.0.0.1:8000/post/2/  # 2번 게시글에 대한 GET요청  
 
 # 2. 서버는 id에 해당하는 게시글을 filter하여 response한다
 post = Post.objects.get(id = kwargs['id'])
@@ -306,6 +328,31 @@ if Post.objects.get(id = kwargs['id']).writer.userid != User.objects.get(id = re
     "message": "post 삭제 성공"
 }
 
+```
+
+<br>
+
+### __httpie로 HTTP 호출하는 방법__   
+
+1. 서버에 요청을 보낼 로컬쪽에서(터미널등) pip install httpie 를 설치한다.   
+2. python manage.py runserver로 서버를 켜놓는다.   
+
+```
+회원가입 : http -v POST 127.0.0.1:8000/user/signup/ userid='test10' password='test10'
+
+로그인 : http -v POST 127.0.0.1:8000/user/signin/
+
+게시글 생성 : http -v POST 127.0.0.1:8000/post/create/ title="hi" content="oh hi!"  "Authorization":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozfQ.vXT-8KCRPdlfFqsH6JaHK9TVaadCh9Ev0ZT2DrZ-DAE"
+
+게시글 리스트 : http -v GET 127.0.0.1:8000/post/ limit==1 offset==2
+
+세부 게시글 :http -v GET 127.0.0.1:8000/post/2/
+
+게시글 수정(GET) : http -v GET 127.0.0.1:8000/post/3/update/  "Authorization":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozfQ.vXT-8KCRPdlfFqsH6JaHK9TVaadCh9Ev0ZT2DrZ-DAE"
+
+게시글 수정(POST) : http -v POST 127.0.0.1:8000/post/3/update/ title="hi" content="oh hi!"  "Authorization":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozfQ.vXT-8KCRPdlfFqsH6JaHK9TVaadCh9Ev0ZT2DrZ-DAE"
+
+게시글 삭제 : http -v POST 127.0.0.1:8000/post/3/delete/  "Authorization":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozfQ.vXT-8KCRPdlfFqsH6JaHK9TVaadCh9Ev0ZT2DrZ-DAE"
 ```
 
 <br>
