@@ -369,4 +369,4 @@ postman 상단에 LANGUAGE -> HTTP로 변경필요
 <br>
 
 ## Unit Test
-[WIKI 작성](https://github.com/heejung-gjt/board/wiki/Unit-Test)
+[WIKI 작성](https://github.com/heejung-gjt/board/wiki/User-App---Unit-Test)
