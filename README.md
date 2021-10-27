@@ -358,7 +358,13 @@ if Post.objects.get(id = kwargs['id']).writer.userid != User.objects.get(id = re
 <br>
 
 ## API Documentation
-[API 명세 보러가기](https://documenter.getpostman.com/view/16088238/UV5ZAGHH)
+### [API 명세 보러가기](https://documenter.getpostman.com/view/16088238/UV5ZAGHH)   
+
+<br>
+
+postman 상단에 LANGUAGE -> HTTP로 변경필요   
+![postman](https://user-images.githubusercontent.com/64240637/139027954-1ee45ea6-d148-44b9-8bce-af0ea5955c64.png)
+
 
 <br>
 
