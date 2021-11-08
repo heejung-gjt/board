@@ -3,8 +3,8 @@ import time
 
 
 class TimeStampable(models.Model):
-  created_at = models.TextField(default=time.time())
-  updated_at = models.TextField(blank=True)
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)
 
   class Meta:
     abstract = True
