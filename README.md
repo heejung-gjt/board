@@ -358,7 +358,7 @@ if Post.objects.get(id = kwargs['id']).writer.userid != User.objects.get(id = re
 <br>
 
 ## API Documentation
-### [API 명세 보러가기](https://documenter.getpostman.com/view/16088238/UV5ZAGHH)   
+### [API 명세 보러가기](https://documenter.getpostman.com/view/16088238/UVC6h6M5)   
 
 <br>
 
